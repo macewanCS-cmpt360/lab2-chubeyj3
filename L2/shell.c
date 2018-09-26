@@ -20,14 +20,12 @@ int main(void)
 
 	token = strtok(cmdline, "\n ");
 	while (token != NULL) {
-		//printf("%s\n", token);x
+		//printf("%s\n", token);
 		args[i++] = strdup(token);
 		token = strtok(NULL, "\n ");
 	}
 	args[i] = NULL;
 
 	free(cmdline);
-
-	return 0;
 
 }
