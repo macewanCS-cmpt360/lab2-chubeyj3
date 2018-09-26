@@ -8,24 +8,40 @@ int main(void)
 
 	char *cmdline;
 	char *token = NULL;
-	int i, rc;
+	int i, new_fork;
 	char *args[10];
 
-	cmdline = calloc(1, 1024);
-	i = 0;
+    while(1){
+        cmdline = calloc(1, 1024);
+        i = 0;
 
-	printf("prompt> ");
-	fgets(cmdline, 1024, stdin);
-	fprintf(stderr, "[debug] cmdline = *%s*\n", cmdline);
+        printf("prompt> ");
+        fgets(cmdline, 1024, stdin);
+        //fprintf(stderr, "[debug] cmdline = *%s*\n", cmdline);
 
-	token = strtok(cmdline, "\n ");
-	while (token != NULL) {
-		//printf("%s\n", token);
-		args[i++] = strdup(token);
-		token = strtok(NULL, "\n ");
-	}
-	args[i] = NULL;
+        token = strtok(cmdline, "\n ");
+        while (token != NULL) {
+            //printf("%s\n", token);x
+            args[i++] = strdup(token);
+            token = strtok(NULL, "\n ");
+        }
+        args[i] = NULL;
 
-	free(cmdline);
+        new_fork = fork();
+        if (new_fork < 0) {
+            fprintf(stderr, "fork failed\n");
+            exit(1);
+        }
+        else if(new_fork == 0){
+            execvp(args[0], args);
+        }
+        else{
+            wait(NULL);
+        }
+
+        free(cmdline);
+    }
+
+	return 0;
 
 }

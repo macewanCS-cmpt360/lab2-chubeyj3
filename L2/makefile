@@ -30,7 +30,6 @@ clean_all:
 	rm q2_assignment_output
 	rm q3
 	rm q7
-	rm shell
 clean_q1:
 	rm q1
 clean_q2:
